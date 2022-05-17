@@ -18,8 +18,8 @@ public class Task {
     public Task(String title, int time) {
         this.title = title;
         this.time = time;
-        this.repeated = false;
-        this.active = false;
+        repeated = false;
+        active = false;
     }
 
     /**
@@ -31,8 +31,8 @@ public class Task {
         this.start = start;
         this.end = end;
         this.interval = interval;
-        this.repeated = true;
-        this.active = false;
+        repeated = true;
+        active = false;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Task {
             this.end = end;
             this.interval = interval;
         } else {
-            this.repeated = true;
+            repeated = true;
             this.start = start;
             this.end = end;
             this.interval = interval;
@@ -175,5 +175,35 @@ public class Task {
             }
         }
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title == null ? 0 : title.hashCode();
+        if (!this.isRepeated()) {
+            result = 31 * result + time;
+        } else {
+            result = 31 * result + start + end + interval;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        Task task = (Task) obj;
+        if (this.title == null) {
+            return task.title == null;
+        }
+        if (!this.isRepeated() && !task.isRepeated() && this.title.equals(task.title) && this.time == task.time) {
+            return true;
+        } else
+            return this.isRepeated() && task.isRepeated() && this.title.equals(task.title) && this.start == task.start
+                    && this.end == task.end && this.interval == task.interval;
     }
 }
