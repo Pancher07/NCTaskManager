@@ -4,32 +4,36 @@ import java.util.Arrays;
 
 /**
  * Class that contains the logic of creating a tasks list.
- * */
+ */
 public class ArrayTaskList {
     private Task[] taskArray;
     private int counter = 0;
+
+    private static final int DEFAULT_CAPACITY = 10;
 
     /**
      * Constructor creates a list of tasks.
      */
     public ArrayTaskList() {
-        taskArray = new Task[10];
+        taskArray = new Task[DEFAULT_CAPACITY];
     }
 
     /**
-     * Constructor creates a list of tasks.
+     * Constructor creates a list of tasks which is based of incoming tasks array.
      *
      * @param taskArray is the array on which the list is created.
+     * @param counter   is the number of incoming tasks.
      */
-    public ArrayTaskList(Task[] taskArray) {
+    private ArrayTaskList(Task[] taskArray, int counter) {
         this.taskArray = taskArray;
+        this.counter = counter;
     }
 
     /**
      * Method that adds the specified task to the list.
      */
     public void add(Task task) {
-        if (counter == taskArray.length - 1) {
+        if (counter == taskArray.length) {
             double newLength = taskArray.length * 1.5 + 1;
             taskArray = Arrays.copyOf(taskArray, (int) newLength);
         }
@@ -41,7 +45,7 @@ public class ArrayTaskList {
      */
     public boolean remove(Task task) {
         boolean result = false;
-        Task[] temp = new Task[taskArray.length - 1];
+        Task[] temp = new Task[Math.max(DEFAULT_CAPACITY, taskArray.length - 1)];
         for (int i = 0; i < taskArray.length; i++) {
             if (taskArray[i] == task) {
                 for (int index = 0; index < i; index++) {
@@ -88,7 +92,7 @@ public class ArrayTaskList {
                 }
             }
         }
-        return new ArrayTaskList(incomingArray);
+        return new ArrayTaskList(incomingArray, incomingCounter);
     }
 
     @Override
