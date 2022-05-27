@@ -7,8 +7,7 @@ import java.util.Arrays;
  */
 public class ArrayTaskList {
     private Task[] taskArray;
-    private int counter = 0;
-
+    private int size;
     private static final int DEFAULT_CAPACITY = 10;
 
     /**
@@ -19,32 +18,29 @@ public class ArrayTaskList {
     }
 
     /**
-     * Constructor creates a list of tasks which is based of incoming tasks array.
-     *
-     * @param taskArray is the array on which the list is created.
-     * @param counter   is the number of incoming tasks.
-     */
-    private ArrayTaskList(Task[] taskArray, int counter) {
-        this.taskArray = taskArray;
-        this.counter = counter;
-    }
-
-    /**
      * Method that adds the specified task to the list.
      */
     public void add(Task task) {
-        if (counter == taskArray.length) {
+        if (task == null) {
+            throw new IllegalArgumentException("Empty link cannot be added");
+        }
+        if (size == taskArray.length) {
             double newLength = taskArray.length * 1.5 + 1;
             taskArray = Arrays.copyOf(taskArray, (int) newLength);
         }
-        taskArray[counter++] = task;
+        taskArray[size++] = task;
     }
 
     /**
      * Method that removes a task from the list and returns true if such a task was on the list.
      */
     public boolean remove(Task task) {
-        boolean result = false;
+        if (task == null) {
+            throw new IllegalArgumentException("Empty link cannot be removed");
+        }
+        if (size == 0) {
+            throw new IndexOutOfBoundsException("ArrayTaskList is empty");
+        }
         Task[] temp = new Task[Math.max(DEFAULT_CAPACITY, taskArray.length - 1)];
         for (int i = 0; i < taskArray.length; i++) {
             if (taskArray[i] == task) {
@@ -55,25 +51,27 @@ public class ArrayTaskList {
                     temp[j] = taskArray[j + 1];
                 }
                 taskArray = Arrays.copyOf(temp, temp.length);
-                result = true;
-                counter--;
-                break;
+                size--;
+                return true;
             }
         }
-        return result;
+        throw new IllegalArgumentException("This task does not belong to this list");
     }
 
     /**
      * Method that returns the number of tasks in the list.
      */
     public int size() {
-        return counter;
+        return size;
     }
 
     /**
      * Method that returns the task that is in the specified place in the list (the first task has an index of 0).
      */
     public Task getTask(int index) {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException("The index is out of range for the list");
+        }
         return taskArray[index];
     }
 
@@ -81,27 +79,26 @@ public class ArrayTaskList {
      * Method that returns a subset of tasks that are scheduled to run at least once after the time "from" and no later than "to".
      */
     public ArrayTaskList incoming(int from, int to) {
-        Task[] incomingArray = new Task[0];
-        int incomingCounter = 0;
+        ArrayTaskList incomingList = new ArrayTaskList();
         for (Task task : taskArray) {
             if (task != null) {
                 if ((task.nextTimeAfter(from) != -1) && (task.nextTimeAfter(from) <= to)) {
-                    incomingArray = Arrays.copyOf(incomingArray, incomingCounter + 1);
-                    incomingArray[incomingCounter] = task;
-                    incomingCounter++;
+                    incomingList.add(task);
                 }
             }
         }
-        return new ArrayTaskList(incomingArray, incomingCounter);
+        return incomingList;
     }
 
-    @Override
-    public int hashCode() {
-        int result = size() == 0 ? 0 : taskArray[0].getTitle().hashCode();
-        for (int i = 0; i < size(); i++) {
-            result = 31 * result + taskArray[i].hashCode();
+    /**
+     * Method displays the ArrayTaskList
+     */
+    public void print() {
+        for (Task t : taskArray) {
+            if (t != null) {
+                System.out.println(t);
+            }
         }
-        return result;
     }
 
     @Override
@@ -113,15 +110,24 @@ public class ArrayTaskList {
             return false;
         }
         ArrayTaskList atl = (ArrayTaskList) obj;
-        if (this.size() != atl.size()) {
+        if (size != atl.size) {
             return false;
         }
         int resultCounter = 0;
-        for (int i = 0; i < this.size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (this.getTask(i).equals(atl.getTask(i))) {
                 resultCounter++;
             }
         }
-        return resultCounter == this.size();
+        return resultCounter == size;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+        for (int i = 0; i < size; i++) {
+            hashCode = 31 * hashCode + taskArray[i].hashCode();
+        }
+        return hashCode;
     }
 }
