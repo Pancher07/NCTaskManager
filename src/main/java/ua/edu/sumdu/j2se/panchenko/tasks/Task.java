@@ -16,6 +16,12 @@ public class Task {
      * Create an inactive task that runs at a specified time without repeating the specified name.
      */
     public Task(String title, int time) {
+        if (title == null) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+        if (time < 0) {
+            throw new IllegalArgumentException("Time cannot be a negative number");
+        }
         this.title = title;
         this.time = time;
         repeated = false;
@@ -27,6 +33,15 @@ public class Task {
      * at a specified interval and has a specified name.
      */
     public Task(String title, int start, int end, int interval) {
+        if (title == null) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
+        if (start < 0 || end < 0) {
+            throw new IllegalArgumentException("Time (start or end) cannot be a negative number");
+        }
+        if (interval <= 0) {
+            throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
+        }
         this.title = title;
         this.start = start;
         this.end = end;
@@ -46,6 +61,9 @@ public class Task {
      * Method for setting the name of the task.
      */
     public void setTitle(String title) {
+        if (title == null) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
         this.title = title;
     }
 
@@ -83,6 +101,9 @@ public class Task {
      * Method for changing execution time for non-repetitive task. If the task is repeated, it becomes non-repetitive.
      */
     public void setTime(int time) {
+        if (time < 0) {
+            throw new IllegalArgumentException("Time cannot be a negative number");
+        }
         if (!this.repeated) {
             this.time = time;
         } else {
@@ -134,6 +155,12 @@ public class Task {
      * Method for changing execution time for repetitive task. If the task is not repeated, it becomes repeatable.
      */
     public void setTime(int start, int end, int interval) {
+        if (start < 0 || end < 0) {
+            throw new IllegalArgumentException("Time (start or end) cannot be a negative number");
+        }
+        if (interval <= 0) {
+            throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
+        }
         if (this.repeated) {
             this.start = start;
             this.end = end;
@@ -161,31 +188,21 @@ public class Task {
      * If after the specified time the task is not executed, or is inactive, the method returns -1.
      */
     public int nextTimeAfter(int current) {
-        int result = -1;
+        if (current < 0) {
+            throw new IllegalArgumentException("Current time cannot be a negative number");
+        }
         if (this.getEndTime() > current && this.active) {
             if (this.repeated) {
                 for (int i = this.start; i < this.end; i += interval) {
                     if (current < i) {
-                        result = i;
-                        break;
+                        return i;
                     }
                 }
             } else {
-                result = time;
+                return time;
             }
         }
-        return result;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = title == null ? 0 : title.hashCode();
-        if (!this.isRepeated()) {
-            result = 31 * result + time;
-        } else {
-            result = 31 * result + start + end + interval;
-        }
-        return result;
+        return -1;
     }
 
     @Override
@@ -205,5 +222,25 @@ public class Task {
         } else
             return this.isRepeated() && task.isRepeated() && this.title.equals(task.title) && this.start == task.start
                     && this.end == task.end && this.interval == task.interval;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = title == null ? 0 : title.hashCode();
+        if (!this.isRepeated()) {
+            hashCode = 31 * hashCode + time;
+        } else {
+            hashCode = 31 * hashCode + start + end + interval;
+        }
+        return hashCode;
+    }
+
+    @Override
+    public String toString() {
+        if (isRepeated()) {
+            return "Title: " + this.title + ", start: " + this.start + ", end: " + this.end + ", interval: " + this.interval;
+        } else {
+            return "Title: " + this.title + ", time: " + this.time;
+        }
     }
 }
