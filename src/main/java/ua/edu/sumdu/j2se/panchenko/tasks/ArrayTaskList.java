@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Class that contains the logic of creating a tasks list.
  */
-public class ArrayTaskList {
+public class ArrayTaskList extends AbstractTaskList {
     private Task[] taskArray;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
@@ -73,21 +73,6 @@ public class ArrayTaskList {
             throw new IndexOutOfBoundsException("The index is out of range for the list");
         }
         return taskArray[index];
-    }
-
-    /**
-     * Method that returns a subset of tasks that are scheduled to run at least once after the time "from" and no later than "to".
-     */
-    public ArrayTaskList incoming(int from, int to) {
-        ArrayTaskList incomingList = new ArrayTaskList();
-        for (Task task : taskArray) {
-            if (task != null) {
-                if ((task.nextTimeAfter(from) != -1) && (task.nextTimeAfter(from) <= to)) {
-                    incomingList.add(task);
-                }
-            }
-        }
-        return incomingList;
     }
 
     /**
