@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.panchenko.tasks;
 /**
  * Class that contains the logic of creating a tasks list that will store tasks in a linked list.
  */
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private Node first;
     private Node last;
     private int size;
@@ -94,21 +94,6 @@ public class LinkedTaskList {
             }
             return x.value;
         }
-    }
-
-    /**
-     * Method that returns a subset of tasks that are scheduled to run at least once after the time "from" and no later than "to".
-     */
-    public LinkedTaskList incoming(int from, int to) {
-        LinkedTaskList incomingList = new LinkedTaskList();
-        Node currentElement = first;
-        while (currentElement != null) {
-            if (currentElement.value.nextTimeAfter(from) != -1 && currentElement.value.nextTimeAfter(from) <= to) {
-                incomingList.add(currentElement.value);
-            }
-            currentElement = currentElement.next;
-        }
-        return incomingList;
     }
 
     private static class Node {
