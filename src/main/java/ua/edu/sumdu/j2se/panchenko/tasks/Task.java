@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.panchenko.tasks;
 /**
  * Base class for main objects - tasks.
  */
-public class Task {
+public class Task implements Cloneable {
     private String title;
     private int time;
     private int start;
@@ -62,7 +62,7 @@ public class Task {
      */
     public void setTitle(String title) {
         if (title == null) {
-            throw new IllegalArgumentException("Title cannot be empty");
+            throw new NullPointerException("Title cannot be empty");
         }
         this.title = title;
     }
@@ -203,6 +203,14 @@ public class Task {
             }
         }
         return -1;
+    }
+
+    public Task clone() {
+        try {
+            return (Task) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2se.panchenko.tasks;
 /**
  * Class that contains the logic of creating a tasks list that will store tasks in a linked list.
  */
-public class LinkedTaskList extends AbstractTaskList {
+public class LinkedTaskList extends AbstractTaskList implements Cloneable {
     private Node first;
     private Node last;
     private int size;
@@ -13,7 +13,7 @@ public class LinkedTaskList extends AbstractTaskList {
      */
     public void add(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Empty link cannot be added");
+            throw new NullPointerException("Empty link cannot be added");
         }
         final Node l = last;
         final Node newNode = new Node(l, task, null);
@@ -31,10 +31,7 @@ public class LinkedTaskList extends AbstractTaskList {
      */
     public boolean remove(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Empty link cannot be removed");
-        }
-        if (size == 0) {
-            throw new IndexOutOfBoundsException("LinkedTaskList is empty");
+            throw new NullPointerException("Empty link cannot be removed");
         }
         for (Node x = first; x != null; x = x.next) {
             if (task.equals(x.value)) {
@@ -75,9 +72,6 @@ public class LinkedTaskList extends AbstractTaskList {
      * Method that returns the task that is in the specified place in the list (the first task has an index of 0).
      */
     public Task getTask(int index) {
-        if (size == 0) {
-            throw new IndexOutOfBoundsException("LinkedTaskList is empty");
-        }
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("The index is out of range for the list!");
         }
@@ -108,44 +102,17 @@ public class LinkedTaskList extends AbstractTaskList {
         }
     }
 
-    /**
-     * Method displays the LinkedTaskList
-     */
-    public void print() {
-        Node currentElement = first;
-        while ((currentElement) != null) {
-            System.out.println(currentElement.value.toString());
-            currentElement = currentElement.next;
-        }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || this.getClass() != obj.getClass()) {
-            return false;
-        }
-        LinkedTaskList linkedTaskList = (LinkedTaskList) obj;
-        if (size != linkedTaskList.size) {
-            return false;
-        }
-        int resultCounter = 0;
-        for (int i = 0; i < size; i++) {
-            if (this.getTask(i).equals(linkedTaskList.getTask(i))) {
-                resultCounter++;
+    public LinkedTaskList clone() {
+        try {
+            LinkedTaskList result = (LinkedTaskList) super.clone();
+            result.first = result.last = null;
+            result.size = 0;
+            for (Node x = first; x != null; x = x.next) {
+                result.add(x.value);
             }
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
-        return resultCounter == size;
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCode = 1;
-        for (int i = 0; i < size(); i++) {
-            hashCode = 31 * hashCode + this.getTask(i).hashCode();
-        }
-        return hashCode;
     }
 }
