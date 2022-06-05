@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Class that contains the logic of creating a tasks list.
  */
-public class ArrayTaskList extends AbstractTaskList {
+public class ArrayTaskList extends AbstractTaskList implements Cloneable {
     private Task[] taskArray;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
@@ -22,7 +22,7 @@ public class ArrayTaskList extends AbstractTaskList {
      */
     public void add(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Empty link cannot be added");
+            throw new NullPointerException("Empty link cannot be added");
         }
         if (size == taskArray.length) {
             double newLength = taskArray.length * 1.5 + 1;
@@ -36,10 +36,7 @@ public class ArrayTaskList extends AbstractTaskList {
      */
     public boolean remove(Task task) {
         if (task == null) {
-            throw new IllegalArgumentException("Empty link cannot be removed");
-        }
-        if (size == 0) {
-            throw new IndexOutOfBoundsException("ArrayTaskList is empty");
+            throw new NullPointerException("Empty link cannot be removed");
         }
         Task[] temp = new Task[Math.max(DEFAULT_CAPACITY, taskArray.length - 1)];
         for (int i = 0; i < taskArray.length; i++) {
@@ -75,44 +72,14 @@ public class ArrayTaskList extends AbstractTaskList {
         return taskArray[index];
     }
 
-    /**
-     * Method displays the ArrayTaskList
-     */
-    public void print() {
-        for (Task t : taskArray) {
-            if (t != null) {
-                System.out.println(t);
-            }
+    public ArrayTaskList clone() {
+        try {
+            ArrayTaskList result = (ArrayTaskList) super.clone();
+            result.taskArray = taskArray.clone();
+            return result;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || this.getClass() != obj.getClass()) {
-            return false;
-        }
-        ArrayTaskList atl = (ArrayTaskList) obj;
-        if (size != atl.size) {
-            return false;
-        }
-        int resultCounter = 0;
-        for (int i = 0; i < size; i++) {
-            if (this.getTask(i).equals(atl.getTask(i))) {
-                resultCounter++;
-            }
-        }
-        return resultCounter == size;
-    }
-
-    @Override
-    public int hashCode() {
-        int hashCode = 1;
-        for (int i = 0; i < size; i++) {
-            hashCode = 31 * hashCode + taskArray[i].hashCode();
-        }
-        return hashCode;
     }
 }
+
