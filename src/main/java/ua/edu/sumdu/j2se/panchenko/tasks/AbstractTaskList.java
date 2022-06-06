@@ -50,82 +50,78 @@ public abstract class AbstractTaskList implements Iterable<Task> {
     }
 
     private class Itr implements Iterator<Task> {
-        int modCount = 0;
+        /**
+         * Index of element to be returned by subsequent call to next.
+         */
         int cursor = 0;
-        int lastRet = -1;
-        int expectedModCount = modCount;
+        /**
+         * Index of element returned by most recent call to next or previous. Reset to -1 if this element
+         * is deleted by a call to remove.
+         */
+        int lastReturned = -1;
 
         public boolean hasNext() {
             return cursor != size();
         }
 
         public Task next() {
-            checkForComodification();
-            try {
-                int i = cursor;
-                Task next = getTask(i);
-                lastRet = i;
-                cursor = i + 1;
-                return next;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
-                throw new NoSuchElementException(e);
+            int i = cursor;
+            if (i >= size()) {
+                throw new NoSuchElementException("No next task");
             }
+            Task next = getTask(i);
+            lastReturned = i;
+            cursor = i + 1;
+            return next;
         }
 
         public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
-
+            if (lastReturned < 0)
+                throw new IllegalStateException("Task was deleted by a call to remove");
             try {
-                AbstractTaskList.this.remove(getTask(lastRet));
-                if (lastRet < cursor)
-                    cursor--;
-                lastRet = -1;
-                expectedModCount = modCount;
+                AbstractTaskList.this.remove(getTask(lastReturned));
+                cursor--;
+                lastReturned = -1;
             } catch (IndexOutOfBoundsException e) {
                 throw new ConcurrentModificationException();
             }
-        }
-
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
         }
     }
 
     @Override
     public String toString() {
         Iterator<Task> it = iterator();
-        if (!it.hasNext())
+        if (!it.hasNext()) {
             return "[]";
-
+        }
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         for (; ; ) {
             Task t = it.next();
             sb.append('{').append(t).append('}');
-            if (!it.hasNext())
+            if (!it.hasNext()) {
                 return sb.append(']').toString();
+            }
             sb.append(',').append(' ');
         }
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
+        if (o == this) {
             return true;
-        if (!(o instanceof AbstractTaskList))
+        }
+        if (!(o instanceof AbstractTaskList)) {
             return false;
-
+        }
         Iterator<Task> e1 = iterator();
-        Iterator<?> e2 = ((AbstractTaskList) o).iterator();
+        Iterator<Task> e2 = ((AbstractTaskList) o).iterator();
         while (e1.hasNext() && e2.hasNext()) {
-            Object o1 = e1.next();
-            Object o2 = e2.next();
-            if (!(Objects.equals(o1, o2)))
+            Task t1 = e1.next();
+            Task t2 = e2.next();
+            if (!(Objects.equals(t1, t2))) {
                 return false;
+            }
         }
         return !(e1.hasNext() || e2.hasNext());
     }
