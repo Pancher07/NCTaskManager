@@ -1,5 +1,7 @@
 package ua.edu.sumdu.j2se.panchenko.tasks;
 
+import java.util.stream.Stream;
+
 /**
  * Class that contains the logic of creating a tasks list that will store tasks in a linked list.
  */
@@ -88,6 +90,17 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
             }
             return x.value;
         }
+    }
+
+    /**
+     * The method that creates a stream from a LinkedTaskList.
+     */
+    public Stream<Task> getStream() {
+        Stream.Builder<Task> builder = Stream.builder();
+        for (Task task : this) {
+            builder.accept(task);
+        }
+        return builder.build();
     }
 
     private static class Node {

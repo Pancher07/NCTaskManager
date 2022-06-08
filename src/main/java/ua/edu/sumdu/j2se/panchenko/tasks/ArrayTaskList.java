@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.panchenko.tasks;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Class that contains the logic of creating a tasks list.
@@ -70,6 +71,13 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable {
             throw new IndexOutOfBoundsException("The index is out of range for the list");
         }
         return taskArray[index];
+    }
+
+    /**
+     * The method that creates a stream from a ArrayTaskList.
+     */
+    public Stream<Task> getStream() {
+        return Arrays.stream(taskArray);
     }
 
     public ArrayTaskList clone() {
