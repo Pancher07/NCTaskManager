@@ -1,13 +1,15 @@
 package ua.edu.sumdu.j2se.panchenko.tasks;
 
+import java.time.LocalDateTime;
+
 /**
  * Base class for main objects - tasks.
  */
 public class Task implements Cloneable {
     private String title;
-    private int time;
-    private int start;
-    private int end;
+    private LocalDateTime time;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private int interval;
     private boolean active;
     private boolean repeated;
@@ -15,15 +17,13 @@ public class Task implements Cloneable {
     /**
      * Create an inactive task that runs at a specified time without repeating the specified name.
      */
-    public Task(String title, int time) {
-        if (title == null) {
-            throw new IllegalArgumentException("Title cannot be empty");
-        }
-        if (time < 0) {
-            throw new IllegalArgumentException("Time cannot be a negative number");
+    public Task(String title, LocalDateTime time) {
+        if (title == null || time == null) {
+            throw new IllegalArgumentException("Title or time cannot be empty");
         }
         this.title = title;
-        this.time = time;
+        this.time = LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                time.getHour(), time.getMinute(), time.getSecond(), time.getNano());
         repeated = false;
         active = false;
     }
@@ -32,19 +32,21 @@ public class Task implements Cloneable {
      * Create an inactive task that runs at a specified time (both start and end inclusive)
      * at a specified interval and has a specified name.
      */
-    public Task(String title, int start, int end, int interval) {
-        if (title == null) {
-            throw new IllegalArgumentException("Title cannot be empty");
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
+        if (title == null || start == null || end == null) {
+            throw new IllegalArgumentException("Title or time cannot be empty");
         }
-        if (start < 0 || end < 0) {
-            throw new IllegalArgumentException("Time (start or end) cannot be a negative number");
+        if (end.isBefore(start)) {
+            throw new IllegalArgumentException("The end time cannot be earlier than the start time");
         }
         if (interval <= 0) {
             throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
         }
         this.title = title;
-        this.start = start;
-        this.end = end;
+        this.start = LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(),
+                start.getHour(), start.getMinute(), start.getSecond(), start.getNano());
+        this.end = LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(),
+                end.getHour(), end.getMinute(),  end.getSecond(), end.getNano());
         this.interval = interval;
         repeated = true;
         active = false;
@@ -89,7 +91,7 @@ public class Task implements Cloneable {
      *
      * @return variable "time" for a task that does not repeat. Return variable "start" for a task that does repeat.
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         if (!this.repeated) {
             return time;
         } else {
@@ -100,15 +102,17 @@ public class Task implements Cloneable {
     /**
      * Method for changing execution time for non-repetitive task. If the task is repeated, it becomes non-repetitive.
      */
-    public void setTime(int time) {
-        if (time < 0) {
-            throw new IllegalArgumentException("Time cannot be a negative number");
+    public void setTime(LocalDateTime time) {
+        if (time == null) {
+            throw new NullPointerException("Time cannot be empty");
         }
         if (!this.repeated) {
-            this.time = time;
+            this.time = LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                    time.getHour(), time.getMinute(), time.getSecond(), time.getNano());
         } else {
             this.repeated = false;
-            this.time = time;
+            this.time = LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                    time.getHour(), time.getMinute(), time.getSecond(), time.getNano());
         }
     }
 
@@ -117,7 +121,7 @@ public class Task implements Cloneable {
      *
      * @return variable "start" for repetitive task. Return variable "time" if task is non-repetitive.
      */
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         if (this.repeated) {
             return start;
         } else {
@@ -130,7 +134,7 @@ public class Task implements Cloneable {
      *
      * @return variable "end" for repetitive task. Return variable "time" if task is non-repetitive.
      */
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         if (this.repeated) {
             return end;
         } else {
@@ -154,21 +158,25 @@ public class Task implements Cloneable {
     /**
      * Method for changing execution time for repetitive task. If the task is not repeated, it becomes repeatable.
      */
-    public void setTime(int start, int end, int interval) {
-        if (start < 0 || end < 0) {
-            throw new IllegalArgumentException("Time (start or end) cannot be a negative number");
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        if (start == null || end == null) {
+            throw new NullPointerException("Time (start or end) cannot be empty");
         }
         if (interval <= 0) {
             throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
         }
         if (this.repeated) {
-            this.start = start;
-            this.end = end;
+            this.start = LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(),
+                    start.getHour(), start.getMinute(), start.getSecond(), start.getNano());
+            this.end = LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(),
+                    end.getHour(), end.getMinute(), end.getSecond(), end.getNano());
             this.interval = interval;
         } else {
             repeated = true;
-            this.start = start;
-            this.end = end;
+            this.start = LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(),
+                    start.getHour(), start.getMinute(), start.getSecond(), start.getNano());
+            this.end = LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(),
+                    end.getHour(), end.getMinute(), end.getSecond(), end.getNano());
             this.interval = interval;
         }
     }
@@ -187,14 +195,16 @@ public class Task implements Cloneable {
      * @return the time of the next task after the specified current time.
      * If after the specified time the task is not executed, or is inactive, the method returns -1.
      */
-    public int nextTimeAfter(int current) {
-        if (current < 0) {
-            throw new IllegalArgumentException("Current time cannot be a negative number");
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        if (current == null) {
+            throw new NullPointerException("Current time cannot be empty");
         }
-        if (this.getEndTime() > current && this.active) {
+        LocalDateTime currentTime = LocalDateTime.of(current.getYear(), current.getMonth(), current.getDayOfMonth(),
+                current.getHour(), current.getMinute(), current.getSecond(), current.getNano());
+        if (this.getEndTime().isAfter(currentTime) && this.active) {
             if (this.repeated) {
-                for (int i = this.start; i < this.end; i += interval) {
-                    if (current < i) {
+                for (LocalDateTime i = this.start; !i.isAfter(this.end); i = i.plusSeconds(interval)) {
+                    if (currentTime.isBefore(i)) {
                         return i;
                     }
                 }
@@ -202,7 +212,7 @@ public class Task implements Cloneable {
                 return time;
             }
         }
-        return -1;
+        return null;
     }
 
     public Task clone() {
@@ -225,20 +235,20 @@ public class Task implements Cloneable {
         if (this.title == null) {
             return task.title == null;
         }
-        if (!this.isRepeated() && !task.isRepeated() && this.title.equals(task.title) && this.time == task.time) {
+        if (!this.isRepeated() && !task.isRepeated() && this.title.equals(task.title) && this.time.equals(task.time)) {
             return true;
         } else
-            return this.isRepeated() && task.isRepeated() && this.title.equals(task.title) && this.start == task.start
-                    && this.end == task.end && this.interval == task.interval;
+            return this.isRepeated() && task.isRepeated() && this.title.equals(task.title) && this.start.equals(task.start)
+                    && this.end.equals(task.end) && this.interval == task.interval;
     }
 
     @Override
     public int hashCode() {
         int hashCode = title == null ? 0 : title.hashCode();
         if (!this.isRepeated()) {
-            hashCode = 31 * hashCode + time;
+            hashCode = 31 * hashCode + time.hashCode();
         } else {
-            hashCode = 31 * hashCode + start + end + interval;
+            hashCode = 31 * hashCode + start.hashCode() + end.hashCode() + interval;
         }
         return hashCode;
     }

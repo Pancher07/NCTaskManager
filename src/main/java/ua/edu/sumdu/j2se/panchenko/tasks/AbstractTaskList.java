@@ -36,23 +36,6 @@ public abstract class AbstractTaskList implements Iterable<Task> {
      */
     public abstract Stream<Task> getStream();
 
-    /**
-     * The method that returns a subset of tasks that are scheduled to run at least once
-     * after the time "from" and no later than "to".
-     */
-    public final AbstractTaskList incoming(int from, int to) {
-        AbstractTaskList taskList;
-        if (this instanceof ArrayTaskList) {
-            taskList = TaskListFactory.createTaskList(ListTypes.types.ARRAY);
-        } else {
-            taskList = TaskListFactory.createTaskList(ListTypes.types.LINKED);
-        }
-        this.getStream()
-                .filter((x -> x != null && (x.nextTimeAfter(from) != -1) && (x.nextTimeAfter(from) <= to)))
-                .forEach(taskList::add);
-        return taskList;
-    }
-
     private class Itr implements Iterator<Task> {
         /**
          * Index of element to be returned by subsequent call to next.
