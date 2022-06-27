@@ -1,12 +1,13 @@
 package ua.edu.sumdu.j2se.panchenko.tasks;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class Tasks {
+public class Tasks implements Serializable {
     /**
      * The static method that returns a subset of tasks that are scheduled to run at least once
      * after the time "from" and no later than "to".
