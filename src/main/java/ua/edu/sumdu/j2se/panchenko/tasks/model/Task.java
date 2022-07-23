@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
 import java.time.LocalDateTime;
 
@@ -256,9 +256,10 @@ public class Task implements Cloneable {
     @Override
     public String toString() {
         if (isRepeated()) {
-            return "Title: " + this.title + ", start: " + this.start + ", end: " + this.end + ", interval: " + this.interval;
+            return "Title: " + this.title + ", start: " + this.start + ", end: " + this.end + ", interval: " + this.interval
+                    + ", active: " + this.isActive();
         } else {
-            return "Title: " + this.title + ", time: " + this.time;
+            return "Title: " + this.title + ", time: " + this.time + ", active: " + this.isActive();
         }
     }
 }

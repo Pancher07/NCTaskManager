@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +22,7 @@ public class TaskIO {
      * The method writes tasks from the list to the stream in binary format.
      */
     public static void write(AbstractTaskList tasks, OutputStream out) throws IOException {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(out)) {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new BufferedOutputStream(out))) {
             objectOutputStream.writeInt(tasks.size());
             for (Task task : tasks) {
                 objectOutputStream.writeInt(task.getTitle().length());
@@ -43,7 +43,7 @@ public class TaskIO {
      * The method reads tasks from the stream into this task list.
      */
     public static void read(AbstractTaskList tasks, InputStream in) throws IOException {
-        try (ObjectInputStream objectInputStream = new ObjectInputStream(in)) {
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new BufferedInputStream(in))) {
             int size = objectInputStream.readInt();
             for (int i = 0; i < size; i++) {
                 int lengthOfTitle = objectInputStream.readInt();

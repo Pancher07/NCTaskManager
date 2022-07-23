@@ -1,4 +1,6 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
+
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -7,6 +9,8 @@ import java.util.stream.Stream;
  * The abstract class that describes operations that can be used with a task list.
  */
 public abstract class AbstractTaskList implements Iterable<Task> {
+    private final static Logger logger = Logger.getLogger(AbstractTaskList.class);
+
     public Iterator<Task> iterator() {
         return new Itr();
     }
@@ -70,6 +74,7 @@ public abstract class AbstractTaskList implements Iterable<Task> {
                 cursor--;
                 lastReturned = -1;
             } catch (IndexOutOfBoundsException e) {
+                logger.error("Here exception: ", e);
                 throw new ConcurrentModificationException();
             }
         }

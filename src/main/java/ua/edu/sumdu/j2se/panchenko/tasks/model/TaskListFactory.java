@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
 /**
  * The class that has the static method that creates an ArrayTaskList and LinkedTaskList object depending on the parameter passed to it.

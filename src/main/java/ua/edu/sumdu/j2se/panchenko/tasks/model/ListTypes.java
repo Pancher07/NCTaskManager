@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
 /**
  * The class that contains enum.

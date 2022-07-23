@@ -1,4 +1,6 @@
-package ua.edu.sumdu.j2se.panchenko.tasks;
+package ua.edu.sumdu.j2se.panchenko.tasks.model;
+
+import org.apache.log4j.Logger;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -8,6 +10,7 @@ import java.util.stream.Stream;
  * Class that contains the logic of creating a tasks list.
  */
 public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serializable {
+    private final static Logger logger = Logger.getLogger(ArrayTaskList.class);
     private Task[] taskArray;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
@@ -87,6 +90,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serial
             result.taskArray = taskArray.clone();
             return result;
         } catch (CloneNotSupportedException e) {
+            logger.error("Here exception: ", e);
             throw new AssertionError();
         }
     }
