@@ -19,10 +19,12 @@ public class AddTaskView implements View {
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
+        logger.info("Add task method called.");
         Task task = createTask();
         if (task != null) {
             task.setActive(true);
             taskList.add(task);
+            logger.debug("Task was added: " + task.toString());
         }
         return SelectionOptions.MAIN_MENU_ACTION.ordinal();
     }
@@ -39,6 +41,7 @@ public class AddTaskView implements View {
             try {
                 String str = reader.readLine();
                 if (str.equalsIgnoreCase("exit")) {
+                    logger.info("The user aborted the method by typing \"exit\".");
                     break;
                 } else {
                     number = Integer.parseInt(str);
@@ -49,9 +52,11 @@ public class AddTaskView implements View {
                 continue;
             }
             if (number == 0) {
+                logger.info("Creating non repeated task.");
                 task = createNonRepeatedTask();
                 isCorrectInput = true;
             } else if (number == 1) {
+                logger.info("Creating repeated task.");
                 task = createRepeatedTask();
                 isCorrectInput = true;
             } else {
@@ -64,7 +69,9 @@ public class AddTaskView implements View {
 
     private Task createNonRepeatedTask() {
         String title = enterTitle();
+        logger.debug("Title: " + title);
         LocalDateTime time = enterTime("start");
+        logger.debug("Time: " + time);
         Task task = new Task(title, LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
                 time.getHour(), time.getMinute(), time.getSecond()));
         System.out.println("The new non-repeating task \"" + title + "\" was created.");
@@ -73,9 +80,13 @@ public class AddTaskView implements View {
 
     private Task createRepeatedTask() {
         String title = enterTitle();
+        logger.debug("Title: " + title);
         LocalDateTime start = enterTime("start");
+        logger.debug("Start time: " + start);
         LocalDateTime end = enterTime("end");
+        logger.debug("End time: " + end);
         int interval = enterInterval();
+        logger.debug("Interval: " + interval);
         Task task = new Task(title, LocalDateTime.of(start.getYear(), start.getMonth(), start.getDayOfMonth(),
                 start.getHour(), start.getMinute(), start.getSecond(), start.getNano()),
                 LocalDateTime.of(end.getYear(), end.getMonth(), end.getDayOfMonth(), end.getHour(),
@@ -89,18 +100,11 @@ public class AddTaskView implements View {
         String title = null;
         boolean isCorrectInput = false;
         System.out.println("Enter the title of task.");
-        System.out.println("To exit to the main menu, enter \"exit\"");
         while (!isCorrectInput) {
             try {
-                String str = reader.readLine();
-                if (str.equalsIgnoreCase("exit")) {
-                    break;
-                } else {
-                    title = str;
-                }
+                title = reader.readLine();
                 if (Objects.equals(title, "")) {
                     System.out.println("Title cannot be empty. Enter the title of task.");
-                    System.out.println("To exit to the main menu, enter \"exit\"");
                 } else {
                     isCorrectInput = true;
                 }

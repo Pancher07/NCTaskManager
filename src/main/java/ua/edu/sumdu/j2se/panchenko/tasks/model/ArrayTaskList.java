@@ -27,6 +27,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serial
      */
     public void add(Task task) {
         if (task == null) {
+            logger.error("Empty link cannot be added");
             throw new NullPointerException("Empty link cannot be added");
         }
         if (size == taskArray.length) {
@@ -41,6 +42,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serial
      */
     public boolean remove(Task task) {
         if (task == null) {
+            logger.error("Empty link cannot be removed");
             throw new NullPointerException("Empty link cannot be removed");
         }
         Task[] temp = new Task[Math.max(DEFAULT_CAPACITY, taskArray.length - 1)];
@@ -72,6 +74,7 @@ public class ArrayTaskList extends AbstractTaskList implements Cloneable, Serial
      */
     public Task getTask(int index) {
         if (index >= size) {
+            logger.error("The index is out of range for the list");
             throw new IndexOutOfBoundsException("The index is out of range for the list");
         }
         return taskArray[index];

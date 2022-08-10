@@ -1,11 +1,14 @@
 package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
+import org.apache.log4j.Logger;
+
 import java.util.stream.Stream;
 
 /**
  * Class that contains the logic of creating a tasks list that will store tasks in a linked list.
  */
 public class LinkedTaskList extends AbstractTaskList implements Cloneable {
+    private final static Logger logger = Logger.getLogger(LinkedTaskList.class);
     private Node first;
     private Node last;
     private int size;
@@ -15,6 +18,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
      */
     public void add(Task task) {
         if (task == null) {
+            logger.error("Empty link cannot be added");
             throw new NullPointerException("Empty link cannot be added");
         }
         final Node l = last;
@@ -33,6 +37,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
      */
     public boolean remove(Task task) {
         if (task == null) {
+            logger.error("Empty link cannot be removed");
             throw new NullPointerException("Empty link cannot be removed");
         }
         for (Node x = first; x != null; x = x.next) {
@@ -41,6 +46,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
                 return true;
             }
         }
+        logger.error("This task does not belong to this list");
         throw new IllegalArgumentException("This task does not belong to this list");
     }
 
@@ -75,6 +81,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
      */
     public Task getTask(int index) {
         if (index < 0 || index >= size) {
+            logger.error("The index is out of range for the list!");
             throw new IndexOutOfBoundsException("The index is out of range for the list!");
         }
         if (index < (size / 2)) {
@@ -125,6 +132,7 @@ public class LinkedTaskList extends AbstractTaskList implements Cloneable {
             }
             return result;
         } catch (CloneNotSupportedException e) {
+            logger.error("Here exception: ", e);
             throw new AssertionError();
         }
     }

@@ -17,12 +17,14 @@ public class RemoveTaskView implements View {
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
+        logger.info("The remove task method has been called.");
         String enterTitle = enterTitle();
+        Task task = null;
         if (!enterTitle.equalsIgnoreCase("exit")) {
             int startSize = taskList.size();
             Iterator<Task> it = taskList.iterator();
             while (it.hasNext()) {
-                Task task = it.next();
+                task = it.next();
                 if (task.getTitle().equals(enterTitle))
                     it.remove();
             }
@@ -30,6 +32,7 @@ public class RemoveTaskView implements View {
                 System.out.println("A task with this title does not exist in the task list.");
             } else {
                 System.out.println("Task \"" + enterTitle + "\" was removed.");
+                logger.debug("Removed task: " + task.toString());
             }
         }
         return SelectionOptions.MAIN_MENU_ACTION.ordinal();
@@ -44,6 +47,7 @@ public class RemoveTaskView implements View {
             try {
                 title = reader.readLine();
                 if (title.equalsIgnoreCase("exit")) {
+                    logger.info("The user aborted the method by typing \"exit\".");
                     break;
                 }
                 if (Objects.equals(title, "")) {

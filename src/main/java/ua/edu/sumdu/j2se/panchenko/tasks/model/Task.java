@@ -1,11 +1,15 @@
 package ua.edu.sumdu.j2se.panchenko.tasks.model;
 
+import org.apache.log4j.Logger;
+import ua.edu.sumdu.j2se.panchenko.tasks.Main;
+
 import java.time.LocalDateTime;
 
 /**
  * Base class for main objects - tasks.
  */
 public class Task implements Cloneable {
+    private final static Logger logger = Logger.getLogger(Task.class);
     private String title;
     private LocalDateTime time;
     private LocalDateTime start;
@@ -19,6 +23,7 @@ public class Task implements Cloneable {
      */
     public Task(String title, LocalDateTime time) {
         if (title == null || time == null) {
+            logger.error("Title or time cannot be empty");
             throw new IllegalArgumentException("Title or time cannot be empty");
         }
         this.title = title;
@@ -34,12 +39,15 @@ public class Task implements Cloneable {
      */
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
         if (title == null || start == null || end == null) {
+            logger.error("Title or time cannot be empty");
             throw new IllegalArgumentException("Title or time cannot be empty");
         }
         if (end.isBefore(start)) {
+            logger.error("The end time cannot be earlier than the start time");
             throw new IllegalArgumentException("The end time cannot be earlier than the start time");
         }
         if (interval <= 0) {
+            logger.error("The repetition interval of the task must be greater than zero");
             throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
         }
         this.title = title;
@@ -64,6 +72,7 @@ public class Task implements Cloneable {
      */
     public void setTitle(String title) {
         if (title == null) {
+            logger.error("Title cannot be empty");
             throw new NullPointerException("Title cannot be empty");
         }
         this.title = title;
@@ -104,6 +113,7 @@ public class Task implements Cloneable {
      */
     public void setTime(LocalDateTime time) {
         if (time == null) {
+            logger.error("Time cannot be empty");
             throw new NullPointerException("Time cannot be empty");
         }
         if (!this.repeated) {
@@ -160,9 +170,11 @@ public class Task implements Cloneable {
      */
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
         if (start == null || end == null) {
+            logger.error("Time (start or end) cannot be empty");
             throw new NullPointerException("Time (start or end) cannot be empty");
         }
         if (interval <= 0) {
+            logger.error("The repetition interval of the task must be greater than zero");
             throw new IllegalArgumentException("The repetition interval of the task must be greater than zero");
         }
         if (this.repeated) {
@@ -197,6 +209,7 @@ public class Task implements Cloneable {
      */
     public LocalDateTime nextTimeAfter(LocalDateTime current) {
         if (current == null) {
+            logger.error("Current time cannot be empty");
             throw new NullPointerException("Current time cannot be empty");
         }
         LocalDateTime currentTime = LocalDateTime.of(current.getYear(), current.getMonth(), current.getDayOfMonth(),

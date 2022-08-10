@@ -21,13 +21,17 @@ public class CalendarView implements View {
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
+        logger.info("The calendar view method has been called.");
         LocalDateTime start = enterTime("start");
+        logger.debug("Start time: " + start);
         LocalDateTime end = null;
         if (start != null) {
             end = enterTime("end");
+            logger.debug("End time: " + end);
             if (end != null) {
                 SortedMap<LocalDateTime, Set<Task>> resultList = Tasks.calendar(taskList, start, end);
                 System.out.println(resultList.toString());
+                logger.debug("Task list for the requested period (calendar): " + resultList.toString());
             }
         }
         return SelectionOptions.MAIN_MENU_ACTION.ordinal();
@@ -43,6 +47,7 @@ public class CalendarView implements View {
             try {
                 timeString = reader.readLine();
                 if (timeString.equalsIgnoreCase("exit")) {
+                    logger.info("The user aborted the method by typing \"exit\".");
                     break;
                 }
             } catch (IOException e) {

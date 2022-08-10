@@ -20,6 +20,7 @@ public class ChangeTaskView implements View {
 
     @Override
     public int printInfo(AbstractTaskList taskList) {
+        logger.info("The method for changing task parameters is called.");
         String enterTitle = enterTitle();
         Task task = null;
         if (!enterTitle.equalsIgnoreCase("exit")) {
@@ -28,7 +29,6 @@ public class ChangeTaskView implements View {
         if (task != null) {
             changing(task);
         }
-
         return SelectionOptions.MAIN_MENU_ACTION.ordinal();
     }
 
@@ -41,6 +41,7 @@ public class ChangeTaskView implements View {
             try {
                 title = reader.readLine();
                 if (title.equalsIgnoreCase("exit")) {
+                    logger.info("The user aborted the method by typing \"exit\".");
                     break;
                 }
                 if (Objects.equals(title, "")) {
@@ -88,6 +89,7 @@ public class ChangeTaskView implements View {
             try {
                 String str = reader.readLine();
                 if (str.equalsIgnoreCase("exit")) {
+                    logger.info("The user aborted the method by typing \"exit\".");
                     break;
                 } else {
                     number = Integer.parseInt(str);
@@ -130,6 +132,7 @@ public class ChangeTaskView implements View {
         try {
             String newTitle = reader.readLine();
             task.setTitle(newTitle);
+            logger.debug("New title has been set: " + newTitle);
         } catch (IOException e) {
             logger.error("Here exception: ", e);
             throw new RuntimeException(e);
@@ -137,43 +140,24 @@ public class ChangeTaskView implements View {
     }
 
     private void changeTimeForNonRepetitiveTask(Task task) {
-        String timeString;
-        LocalDateTime time = null;
-        boolean isCorrectInput = false;
-        System.out.println("Enter the new time of the tasks in the format \"YYYY-MM-DD HH:MM:SS\"");
-        while (!isCorrectInput) {
-            try {
-                timeString = reader.readLine();
-            } catch (IOException e) {
-                logger.error("Here exception: ", e);
-                throw new RuntimeException(e);
-            }
-            DateTimeFormatter formatter =
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            try {
-                time = LocalDateTime.parse(timeString, formatter);
-            } catch (DateTimeParseException dte) {
-                System.out.println("The entered value is not correct. " +
-                        "Enter the new time of the tasks in the format \"YYYY-MM-DD HH:MM:SS\"");
-                continue;
-            }
-            task.setTime(time);
-            isCorrectInput = true;
-        }
+        LocalDateTime time = enterTime("time");
+        task.setTime(time);
+        logger.debug("New time has been set: " + time);
     }
 
     private void changeTimeForRepetitiveTask(Task task) {
-        LocalDateTime start = enterTime("start");
-        LocalDateTime end = enterTime("end");
+        LocalDateTime start = enterTime("start time");
+        LocalDateTime end = enterTime("end time");
         int interval = enterInterval();
         task.setTime(start, end, interval);
+        logger.debug("New time has been set: start - " + start + ", end - " + end + ", interval - " + interval);
     }
 
     private LocalDateTime enterTime(String stateOfTime) {
         String timeString;
         LocalDateTime time = null;
         boolean isCorrectInput = false;
-        System.out.println("Enter the " + stateOfTime + " time of the tasks in the format \"YYYY-MM-DD HH:MM:SS\"");
+        System.out.println("Enter the " + stateOfTime + " of the tasks in the format \"YYYY-MM-DD HH:MM:SS\"");
         while (!isCorrectInput) {
             try {
                 timeString = reader.readLine();
@@ -218,6 +202,7 @@ public class ChangeTaskView implements View {
 
     private void changeActivityStatus(Task task) {
         task.setActive(!task.isActive());
+        logger.debug("New active status has been set: " + task.isActive());
     }
 }
 

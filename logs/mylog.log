@@ -1,0 +1,87 @@
+2022-08-09 21:09:46 INFO  Main:16 - Method main started.
+2022-08-09 21:09:50 INFO  Main:56 - Method main finished.
+2022-08-09 23:23:43 INFO  Main:16 - Method main started.
+2022-08-09 23:23:45 INFO  Main:57 - Method main finished.
+2022-08-09 23:28:44 INFO  Main:16 - Method main started.
+2022-08-09 23:29:25 DEBUG AddTaskView:26 - Added task : Title: Task2, time: 2022-08-15T15:00, active: true
+2022-08-09 23:29:28 INFO  Main:57 - Method main finished.
+2022-08-09 23:31:52 INFO  Main:16 - Method main started.
+2022-08-09 23:31:54 INFO  AddTaskView:22 - Add task method called.
+2022-08-09 23:32:07 INFO  Main:57 - Method main finished.
+2022-08-09 23:36:09 INFO  Main:16 - Method main started.
+2022-08-09 23:36:10 INFO  AddTaskView:22 - Add task method called.
+2022-08-09 23:36:18 INFO  AddTaskView:44 - User aborted the execution of the method.
+2022-08-09 23:36:20 INFO  Main:57 - Method main finished.
+2022-08-09 23:44:24 INFO  Main:16 - Method main started.
+2022-08-09 23:44:33 INFO  CalendarView:24 - The calendar view method has been called.
+2022-08-09 23:45:02 DEBUG CalendarView:32 - Task list for the requested period (calendar): {2022-08-09T08:00=[Title: Task1, time: 2022-08-09T08:00, active: true], 2022-08-15T15:00=[Title: Task2, time: 2022-08-15T15:00, active: true]}
+2022-08-09 23:45:19 INFO  Main:57 - Method main finished.
+2022-08-09 23:49:04 INFO  Main:16 - Method main started.
+2022-08-10 00:12:41 INFO  Main:16 - Method main started.
+2022-08-10 00:12:50 INFO  ChangeTaskView:23 - The method for changing task parameters is called.
+2022-08-10 00:13:22 DEBUG ChangeTaskView:164 - New time has been set : 2022-08-10T00:00
+2022-08-10 00:13:51 INFO  Main:57 - Method main finished.
+2022-08-10 00:17:51 INFO  Main:16 - Method main started.
+2022-08-10 00:17:55 INFO  ChangeTaskView:23 - The method for changing task parameters is called.
+2022-08-10 00:18:14 DEBUG ChangeTaskView:164 - New time has been set : 2022-08-11T11:11
+2022-08-10 00:18:15 INFO  Main:57 - Method main finished.
+2022-08-10 00:18:27 INFO  Main:16 - Method main started.
+2022-08-10 00:18:31 INFO  Main:57 - Method main finished.
+2022-08-10 00:20:24 INFO  Main:16 - Method main started.
+2022-08-10 00:20:33 INFO  ChangeTaskView:23 - The method for changing task parameters is called.
+2022-08-10 00:20:41 DEBUG ChangeTaskView:205 - New active status has been set: false
+2022-08-10 00:20:50 INFO  Main:57 - Method main finished.
+2022-08-10 00:32:26 INFO  Main:16 - Method main started.
+2022-08-10 00:32:28 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 00:32:35 INFO  RemoveTaskView:20 - The remove task method has been called.
+2022-08-10 00:32:38 DEBUG RemoveTaskView:35 - Removed task: Title: Task2, time: 2022-08-15T15:00, active: true
+2022-08-10 00:32:40 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 00:32:41 INFO  Main:57 - Method main finished.
+2022-08-10 19:03:10 INFO  Main:16 - Method main started.
+2022-08-10 19:03:18 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:03:22 INFO  AddTaskView:59 - Creating repeated task.
+2022-08-10 19:03:34 INFO  AddTaskView:108 - The user aborted the method by typing "exit".
+2022-08-10 19:03:34 DEBUG AddTaskView:83 - Title: null
+2022-08-10 19:04:11 INFO  Main:16 - Method main started.
+2022-08-10 19:04:14 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:04:16 INFO  AddTaskView:55 - Creating non repeated task.
+2022-08-10 19:04:27 INFO  AddTaskView:108 - The user aborted the method by typing "exit".
+2022-08-10 19:04:27 DEBUG AddTaskView:72 - Title: null
+2022-08-10 19:07:36 INFO  Main:16 - Method main started.
+2022-08-10 19:07:38 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 19:07:40 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:07:43 INFO  AddTaskView:44 - The user aborted the method by typing "exit".
+2022-08-10 19:07:46 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:07:48 INFO  AddTaskView:55 - Creating non repeated task.
+2022-08-10 19:09:53 INFO  Main:16 - Method main started.
+2022-08-10 19:09:55 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:09:59 INFO  AddTaskView:55 - Creating non repeated task.
+2022-08-10 19:10:04 DEBUG AddTaskView:72 - Title: Task2
+2022-08-10 19:10:20 DEBUG AddTaskView:74 - Time: 2022-05-06T05:05:05
+2022-08-10 19:10:20 DEBUG AddTaskView:27 - Task was added: Title: Task2, time: 2022-05-06T05:05:05, active: true
+2022-08-10 19:10:21 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 19:10:32 INFO  RemoveTaskView:20 - The remove task method has been called.
+2022-08-10 19:10:41 INFO  RemoveTaskView:50 - The user aborted the method by typing "exit".
+2022-08-10 19:11:12 INFO  Main:57 - Method main finished.
+2022-08-10 19:11:54 INFO  Main:16 - Method main started.
+2022-08-10 19:11:56 INFO  RemoveTaskView:20 - The remove task method has been called.
+2022-08-10 19:12:00 DEBUG RemoveTaskView:35 - Removed task: Title: Task2, time: 2022-05-06T05:05:05, active: true
+2022-08-10 19:12:02 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 19:12:09 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:12:11 INFO  AddTaskView:59 - Creating repeated task.
+2022-08-10 19:12:15 DEBUG AddTaskView:83 - Title: Task2
+2022-08-10 19:12:26 DEBUG AddTaskView:85 - Start time: 2022-05-05T00:00
+2022-08-10 19:12:39 DEBUG AddTaskView:87 - End time: 2021-05-05T00:00
+2022-08-10 19:12:44 DEBUG AddTaskView:89 - Interval: 600
+2022-08-10 19:15:49 INFO  Main:16 - Method main started.
+2022-08-10 19:15:51 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:15:54 INFO  AddTaskView:59 - Creating repeated task.
+2022-08-10 19:16:07 DEBUG AddTaskView:83 - Title: exit
+2022-08-10 19:16:45 INFO  Main:16 - Method main started.
+2022-08-10 19:16:47 INFO  AddTaskView:22 - Add task method called.
+2022-08-10 19:16:52 INFO  AddTaskView:59 - Creating repeated task.
+2022-08-10 19:17:07 DEBUG AddTaskView:83 - Title: Task repeated
+2022-08-10 19:17:15 DEBUG AddTaskView:85 - Start time: 2022-05-05T05:05:05
+2022-08-10 19:17:25 DEBUG AddTaskView:87 - End time: 2021-05-05T05:05:05
+2022-08-10 19:17:29 DEBUG AddTaskView:89 - Interval: 600
+2022-08-10 19:17:29 ERROR Task:44 - The end time cannot be earlier than the start time
