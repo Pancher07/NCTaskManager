@@ -85,3 +85,9 @@
 2022-08-10 19:17:25 DEBUG AddTaskView:87 - End time: 2021-05-05T05:05:05
 2022-08-10 19:17:29 DEBUG AddTaskView:89 - Interval: 600
 2022-08-10 19:17:29 ERROR Task:44 - The end time cannot be earlier than the start time
+2022-08-10 23:23:23 INFO  Main:16 - Method main started.
+2022-08-10 23:51:10 INFO  Main:16 - Method main started.
+2022-08-10 23:51:14 INFO  CheckTasksView:11 - The method has been called to view available tasks.
+2022-08-10 23:51:17 INFO  Main:57 - Method main finished.
+2022-08-11 11:33:32 INFO  Main:16 - Method main started.
+2022-08-11 11:33:37 INFO  CheckTasksView:11 - The method has been called to view available tasks.
